@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <TabPane layoutX="-32.0" layoutY="-31.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="Untitled Tab 1">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TextFlow layoutX="-86.0" layoutY="-30.0" prefHeight="200.0" prefWidth="200.0">
+                                             <children>
+                                                <TitledPane animated="false" text="untitled">
+                                                  <content>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Hyperlink layoutX="127.0" layoutY="24.0" text="Hyperlink" />
+                                                            <MenuButton layoutX="77.0" layoutY="98.0" mnemonicParsing="false" text="MenuButton">
+                                                              <items>
+                                                                <MenuItem mnemonicParsing="false" text="Action 1" />
+                                                                <MenuItem mnemonicParsing="false" text="Action 2" />
+                                                              </items>
+                                                            </MenuButton>
+                                                            <ProgressBar layoutX="86.0" layoutY="155.0" prefWidth="200.0" progress="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </content>
+                                                </TitledPane>
+                                             </children>
+                                          </TextFlow>
+                                          <ColorPicker layoutX="70.0" layoutY="24.0" />
+                                          <Circle fill="DODGERBLUE" layoutX="142.0" layoutY="124.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+                                          <SVGPath content="M40,60 C42,48 44,30 25,32" layoutX="52.0" layoutY="30.0" />
+                                          <BubbleChart layoutX="-108.0" layoutY="-160.0">
+                                            <xAxis>
+                                              <NumberAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </BubbleChart>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Untitled Tab 2">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              </content>
+                            </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
