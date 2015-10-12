@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import de.saxsys.pitfalls.caching.util.FPSUtil;
 
 public class RightUsageOfCaching extends Application {
 	
@@ -35,7 +36,7 @@ public class RightUsageOfCaching extends Application {
 		
 		startMovemenet(last);
 		
-		ToggleButton caching = new ToggleButton("Caching");
+		ToggleButton caching = new ToggleButton("Cache this magical circle");
 		
 		
 		caching.selectedProperty().addListener(
@@ -44,12 +45,14 @@ public class RightUsageOfCaching extends Application {
 					System.out.println("Caching " + newValue);
 				});
 		
-		VBox vbox = new VBox(container, caching);
+		VBox vbox = new VBox(caching, container);
 		
-		Scene scene = new Scene(vbox);
+		Scene scene = new Scene(vbox, 1000, 1300);
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		FPSUtil.displayFPS(scene, vbox);
 	}
 	
 	private void startMovemenet(Node node) {
