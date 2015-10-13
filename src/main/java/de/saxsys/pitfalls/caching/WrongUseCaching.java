@@ -1,67 +1,46 @@
 package de.saxsys.pitfalls.caching;
 
-import java.util.Random;
-
-import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import de.saxsys.pitfalls.caching.util.CircleFactory;
+import de.saxsys.pitfalls.caching.view.CircleArea;
 
 public class WrongUseCaching extends Application {
 	
-	StackPane container = new StackPane();
-	Random random = new Random();
+	private final CircleArea circleArea = new CircleArea();
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		for (int i = 0; i < 10000; i++) {
-			Circle circle = new Circle(50);
-			circle.setFill(Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255)));
-			container.getChildren().add(circle);
-			startMovemenet(circle);
+		
+		Pane circleContainer = circleArea.getCircleContainer();
+		
+		for (int i = 0; i < 4000; i++) {
+			Circle createCircle = CircleFactory.createCircle(50);
+			circleContainer.getChildren().add(createCircle);
+			CircleFactory.moveCircle(createCircle);
 		}
 		
-		ToggleButton caching = new ToggleButton("Caching");
+		circleArea.setCallback(value -> {
+			setCircleCache(value);
+			System.out.println("Caching " + value);
+		});
 		
-		caching.selectedProperty().addListener(
-				(ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
-					setCircleCache(newValue);
-					System.out.println("Caching " + newValue);
-				});
-		
-		Pane vbox = new Pane(container, caching);
-		
-		Scene scene = new Scene(vbox);
+		Scene scene = new Scene(circleArea);
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
-	private void startMovemenet(Circle node) {
-		
-		Scene scene = node.getScene();
-		double toX = random.nextDouble() * (scene == null ? 0.0 : scene.getWidth());
-		double toY = random.nextDouble() * (scene == null ? 0.0 : scene.getHeight());
-		
-		TranslateTransition transition = new TranslateTransition(Duration.seconds(1), node);
-		transition.setToX(toX);
-		transition.setToY(toY);
-		transition.setOnFinished(e -> startMovemenet(node));
-		transition.play();
-	}
 	
 	private void setCircleCache(boolean enabled) {
-		for (int i = 0; i < container.getChildren().size(); i++) {
-			Node node = container.getChildren().get(i);
+		Pane circleContainer = circleArea.getCircleContainer();
+		for (int i = 0; i < circleContainer.getChildren().size(); i++) {
+			Node node = circleContainer.getChildren().get(i);
 			node.setCache(enabled);
 			node.setCacheHint(CacheHint.SPEED);
 		}
