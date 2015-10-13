@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -44,38 +45,54 @@ public class ClassToTestTest {
 
     @Test(timeout = 60000)
     public void testLongLastingOperationWithFXWorker() throws ExecutionException, InterruptedException {
-        CountDownLatch stop = new CountDownLatch(1);
-        final FXWorker<?> handler = FXWorker.instance();
-        CountDownLatch waitForAsynyResult = new CountDownLatch(1);
-        handler.supplyOnFXThread(() -> {
-            ClassToTest cut = new ClassToTest();
-            cut.start();
+        final ClassToTest cut = new ClassToTest();
 
-            cut.valueProperty().addListener((b, o, n) -> {
-                if (n != null) {
-                    assertEquals("I'm an expensive result.", n);
-                    waitForAsynyResult.countDown();
+        IntStream.range(0,5).forEach(v-> {
+            CountDownLatch stop = new CountDownLatch(1);
+            FXWorker<?> handler = FXWorker.instance();
+            CountDownLatch waitForAsynyResult = new CountDownLatch(1);
+            handler.supplyOnFXThread(() -> {
+
+                if (!cut.isRunning()) {
+                    cut.reset();
+                    cut.start();
                 }
+
+                cut.valueProperty().addListener((b, o, n) -> {
+                    if (n != null) {
+                        assertEquals("I'm an expensive result.", n);
+                        waitForAsynyResult.countDown();
+                    }
+                });
+                return cut;
+            }).functionOnExecutorThread((cut1) -> {
+                // wait outside FX application thread !!!
+                try {
+                    waitForAsynyResult.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                return cut1;
+            }).functionOnFXThread(cut2 -> {
+                System.out.println(cut2.valueProperty().getValue());
+                return cut2.getValue();
+            }).execute(val -> {
+                assertEquals("I'm an expensive result.", val);
+                stop.countDown();
             });
-            return cut;
-        }).functionOnExecutorThread((cut) -> {
-            // wait outside FX application thread !!!
+
             try {
-                waitForAsynyResult.await();
+                stop.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            return cut;
-        }).functionOnFXThread(cut -> {
-            System.out.println(cut.valueProperty().getValue());
-            return cut.getValue();
-        }).execute(val -> {
-            assertEquals("I'm an expensive result.", val);
-            stop.countDown();
         });
+
+
+
         assertEquals(true, true);
-        stop.await();
+
     }
 
 
