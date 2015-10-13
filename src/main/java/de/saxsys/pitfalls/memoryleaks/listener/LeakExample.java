@@ -34,28 +34,31 @@ public class LeakExample extends Application {
 		Button stopLeakingButton = new Button("Remove Leak");
 		VBox root = new VBox(view, removeViewButton, stopLeakingButton);
 		
+		initButtonHandlers(view, removeViewButton, stopLeakingButton, root);
+		
+		Scene scene = new Scene(root);
+		
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		
+		generateMemoryWhileViewRetainsInMemory();
+	}
+	
+	private void initButtonHandlers(LeakingView view, Button removeViewButton, Button stopLeakingButton, VBox root) {
 		stopLeakingButton.setOnAction(event -> {
 			view.removeListener();
 			// If you don't remove the action handler, the line before will create a leak
 				stopLeakingButton.setOnAction(null);
 			});
 		
-		
 		removeViewButton.setOnAction(event -> {
 			root.getChildren().remove(view);
 			// If you don't remove the action handler, the line before will create a leak
 				removeViewButton.setOnAction(null);
 			});
-		
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		
-		generateMemory();
 	}
 	
-	private void generateMemory() {
+	private void generateMemoryWhileViewRetainsInMemory() {
 		Thread thread = new Thread(() -> {
 			// While the View retains in memory, we force the GarbageCollection to work
 				while (isViewStillInMemory()) {

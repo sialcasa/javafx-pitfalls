@@ -20,7 +20,7 @@ public class LeakingView extends StackPane {
 		this.carChangedListener =  new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				 
+				//Do Something 
 			}
 		};
 		
