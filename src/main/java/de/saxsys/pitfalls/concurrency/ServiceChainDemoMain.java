@@ -45,6 +45,7 @@ public class ServiceChainDemoMain extends Application {
 
     private void createServiceChain(final Service<String> service, final ServiceChain demoControl) {
         // or  service.setOnSucceeded(state-> ...);
+        //service.setOnSucceeded(state->);
         service.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (val) -> {
 
             final Service<String> service2 = createServiceTwo();
