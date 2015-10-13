@@ -17,6 +17,7 @@ public class FPSUtil {
 	
 	private static float getFPS() {
 		float fps = tracker.getAverageFPS();
+		// tracker.resetAverageFPS();
 		return fps;
 	}
 	
@@ -41,7 +42,6 @@ public class FPSUtil {
 				@Override
 				public void handle(long now) {
 					fpsLabel.setText(String.format("FPS: %.0f fps", getFPS()));
-					
 				}
 			};
 			frameRateMeter.start();

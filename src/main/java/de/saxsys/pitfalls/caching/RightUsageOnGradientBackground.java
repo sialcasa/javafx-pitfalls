@@ -20,10 +20,10 @@ public class RightUsageOnGradientBackground extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		
 		Pane circleContainer = circleArea.getCircleContainer();
-		Pane someContainer = createPaneWithGradient();
+		Pane someContainer = CircleFactory.createCircleStack(100);
 		circleContainer.getChildren().add(someContainer);
 		
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 80; i++) {
 			Circle circle = CircleFactory.createCircleWithDropShadow();
 			circleContainer.getChildren().add(circle);
 			CircleFactory.moveCircle(circle);
@@ -42,13 +42,7 @@ public class RightUsageOnGradientBackground extends Application {
 	}
 	
 	
-	private Pane createPaneWithGradient() {
-		Pane someContainer = new Pane();
-		someContainer.setMinSize(1000, 1000);
-		someContainer
-				.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #dc143c, rgba(255,255,255,1));");
-		return someContainer;
-	}
+	
 	
 	
 	public static void main(String[] args) {
