@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+           prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox >
+            <children>
+                <HBox prefHeight="150.0" prefWidth="200.0" minHeight="50.0" minWidth="100.0">
+                    <children>
+                        <TextField maxHeight="1.7976931348623157E308"/>
+                        <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="Button"/>
+                    </children>
+                </HBox>
+                <HBox layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" minHeight="50.0" minWidth="100.0">
+                    <children>
+                        <TextField maxHeight="1.7976931348623157E308"/>
+                        <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="Button"/>
+                    </children>
+                </HBox>
+                <HBox layoutX="10.0" layoutY="110.0" prefHeight="150.0" prefWidth="200.0" minHeight="50.0" minWidth="100.0">
+                    <children>
+                        <TextField maxHeight="1.7976931348623157E308"/>
+                        <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="Button"/>
+                    </children>
+                </HBox>
+                <HBox layoutX="10.0" layoutY="210.0" prefHeight="150.0" prefWidth="200.0" minHeight="50.0" minWidth="100.0">
+                    <children>
+                        <TextField maxHeight="1.7976931348623157E308"/>
+                        <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="Button"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</StackPane>

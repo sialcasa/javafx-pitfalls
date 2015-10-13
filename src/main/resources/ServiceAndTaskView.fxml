@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<fx:root type="javafx.scene.layout.VBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+         minHeight="-Infinity" minWidth="-Infinity"
+         prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml">
+    <children>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <HBox.margin>
+                        <Insets left="10.0"/>
+                    </HBox.margin>
+                    <children>
+                        <Label alignment="CENTER" text="Task Demo" HBox.hgrow="ALWAYS">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+
+                <ProgressIndicator fx:id="progressTask" progress="0.0" HBox.hgrow="ALWAYS">
+                    <HBox.margin>
+                        <Insets left="55.0"/>
+                    </HBox.margin>
+
+                </ProgressIndicator>
+                <Button fx:id="startTask" mnemonicParsing="false" text="Start" HBox.hgrow="ALWAYS">
+                    <HBox.margin>
+                        <Insets left="30.0"/>
+                    </HBox.margin>
+                </Button>
+                <HBox prefHeight="100.0" prefWidth="200.0" alignment="CENTER_RIGHT">
+                    <HBox.margin>
+                        <Insets right="20.0"/>
+                    </HBox.margin>
+                    <children>
+                        <Label fx:id="labelTask" pickOnBounds="true"
+                               HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets right="10.0"/>
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <children>
+
+
+                <HBox prefHeight="100.0" prefWidth="200.0" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <HBox.margin>
+                        <Insets left="10.0"/>
+                    </HBox.margin>
+                    <children>
+                        <Label alignment="CENTER" text="Service Demo" HBox.hgrow="ALWAYS">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+                <ProgressIndicator fx:id="progressService" progress="0.0" HBox.hgrow="ALWAYS">
+                    <HBox.margin>
+                        <Insets top="5.0"/>
+                    </HBox.margin>
+                </ProgressIndicator>
+                <Button fx:id="startService" mnemonicParsing="false" text="Start" HBox.hgrow="ALWAYS"/>
+
+                <HBox prefHeight="100.0" prefWidth="200.0" alignment="CENTER_RIGHT">
+                    <HBox.margin>
+                        <Insets right="20.0"/>
+                    </HBox.margin>
+                    <children>
+                        <Label fx:id="labelService" pickOnBounds="true"
+                               HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets right="10.0"/>
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+            <VBox.margin>
+                <Insets top="20.0"/>
+            </VBox.margin>
+        </HBox>
+    </children>
+</fx:root>
