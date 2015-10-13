@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+         prefHeight="400.0" prefWidth="600.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <children>
+                <Label alignment="CENTER" text="ServiceChain Demo" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets left="40.0"/>
+                    </HBox.margin>
+                </Label>
+                <ProgressIndicator fx:id="progressService" progress="0.0" HBox.hgrow="ALWAYS">
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                </ProgressIndicator>
+                <Button fx:id="startService" mnemonicParsing="false" text="Start" HBox.hgrow="ALWAYS">
+                    <HBox.margin>
+                        <Insets right="10.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+            <VBox.margin>
+                <Insets top="20.0"/>
+            </VBox.margin>
+        </HBox>
+        <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <StackPane prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <Rectangle fx:id="stepOneRectangle" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT"
+                                   height="150.0" stroke="RED" strokeType="INSIDE" strokeWidth="2.0" width="150.0"/>
+                        <Label fx:id="stepOneLabel" text="Step 1"/>
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <Rectangle fx:id="stepTwoRectangle" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="150.0"
+                                   stroke="RED" strokeType="INSIDE" strokeWidth="2.0" width="150.0"/>
+                        <Label fx:id="stepTwoLabel" text="Step 2"/>
+                    </children>
+                </StackPane>
+            </children>
+        </HBox>
+    </children>
+</fx:root>
