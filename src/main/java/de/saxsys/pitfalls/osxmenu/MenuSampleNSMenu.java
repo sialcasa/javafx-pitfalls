@@ -5,6 +5,7 @@ package de.saxsys.pitfalls.osxmenu;
  * source: https://github.com/codecentric/NSMenuFX
  */
 
+import com.guigarage.flatterfx.FlatterFX;
 import de.codecentric.centerdevice.platform.osx.NSMenuBarAdapter;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -72,6 +73,7 @@ public class MenuSampleNSMenu extends Application {
 
     @Override
     public void start(Stage stage) {
+        FlatterFX.style();
         stage.setTitle("Menu Sample");
         Scene scene = new Scene(new VBox(), 400, 350);
         scene.setFill(Color.OLDLACE);

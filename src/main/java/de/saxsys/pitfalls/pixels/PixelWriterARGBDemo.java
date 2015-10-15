@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -44,9 +45,9 @@ public class PixelWriterARGBDemo extends Application {
 
         FlatterFX.style();
         Group root = new Group();
-        Scene scene = new Scene(root, 1280, 1024);
+        Scene scene = new Scene(root, 1600, 1024);
         stage.setScene(scene);
-        stage.setTitle("Progress Controls - Task");
+        stage.setTitle("Crop image - comparison");
         final VBox vb = new VBox();
 
         VBox header = new VBox();
@@ -65,13 +66,13 @@ public class PixelWriterARGBDemo extends Application {
         box.setPrefHeight(150);
         box.setMaxHeight(150);
         defineAlignment(color,argb,all,setPixels,maskImageView);
-        defineMargin(color,argb,all,setPixels,maskImageView);
+        defineMargin(10,color,argb,all,setPixels,maskImageView);
         box.getChildren().addAll(color, argb, all, setPixels, maskImageView);
         return box;
     }
 
-    private void defineMargin(VBox ...b) {
-        Stream.of(b).forEach(box->HBox.setMargin(box, new Insets(10)));
+    private void defineMargin(double margin, Node...b) {
+        Stream.of(b).forEach(box->HBox.setMargin(box, new Insets(margin)));
     }
 
     private void defineAlignment(VBox ...b) {
@@ -92,10 +93,13 @@ public class PixelWriterARGBDemo extends Application {
     private HBox createButtons() {
         HBox box = new HBox();
         box.setAlignment(Pos.CENTER);
+
         Button color = new Button("setColor");
         color.setOnAction((event) -> createImageBySetColor());
+
         Button argb = new Button("setRGB");
         argb.setOnAction((event) -> createImageByargb());
+
         Button setPixels = new Button("setPixels");
         setPixels.setOnAction((event) -> createImageSetPixels((view, time) -> Platform.runLater(() -> {
             VBox.setMargin(view, new Insets(20));
@@ -104,13 +108,11 @@ public class PixelWriterARGBDemo extends Application {
         })));
         Button all = new Button("mask and getImage");
         all.setOnAction((event) -> createImageByMask());
+
         Button imgView = new Button("mask use ImageView");
         imgView.setOnAction((event) -> createImageViewByMask());
-        HBox.setMargin(color, new Insets(30));
-        HBox.setMargin(argb, new Insets(30));
-        HBox.setMargin(setPixels, new Insets(30));
-        HBox.setMargin(all, new Insets(30));
-        HBox.setMargin(imgView, new Insets(30));
+
+        defineMargin(30,color,argb,setPixels,all,imgView);
         box.getChildren().addAll(color, argb, all, setPixels, imgView);
         return box;
     }

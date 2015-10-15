@@ -4,6 +4,7 @@ package de.saxsys.pitfalls.osxmenu;
  * Created by Andy Moncsek on 13.10.15.
  */
 
+import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -70,6 +71,7 @@ public class MenuSample extends Application {
 
     @Override
     public void start(Stage stage) {
+        FlatterFX.style();
         stage.setTitle("Menu Sample");
         Scene scene = new Scene(new VBox(), 400, 350);
         scene.setFill(Color.OLDLACE);
