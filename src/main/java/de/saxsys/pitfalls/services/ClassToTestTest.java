@@ -28,28 +28,28 @@ public class ClassToTestTest {
 	@Test
 	@TestInJfxThread
 	public void testLongLastingOperation() throws ExecutionException, InterruptedException, TimeoutException {
-		ClassToTest cut = new ClassToTest();
+		ClassToTest service = new ClassToTest();
 		
 		CompletableFuture<String> future = new CompletableFuture<>();
 		
-		cut.valueProperty().addListener((b, o, n) -> {
+		service.valueProperty().addListener((b, o, n) -> {
 			if (n != null) {
 				future.complete(n);
 			}
 		});
 		
 		// STARTET ONCE....
-		cut.start();
+		service.start();
 		
 		// EXC
-		System.out.println(cut.valueProperty());
+		System.out.println(service.valueProperty());
 		// assertEquals("I'm an expensive result", cut.getValue());
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 	}
 	
 	@Test(timeout = 60000)
 	public void testLongLastingOperationWithFXWorker() throws ExecutionException, InterruptedException {
-		final ClassToTest cut = new ClassToTest();
+		final ClassToTest service = new ClassToTest();
 		
 		IntStream.range(0, 5).forEach(v -> {
 			CountDownLatch stop = new CountDownLatch(1);
@@ -57,18 +57,18 @@ public class ClassToTestTest {
 			CountDownLatch waitForAsynyResult = new CountDownLatch(1);
 			handler.supplyOnFXThread(() -> {
 				
-				if (!cut.isRunning()) {
-					cut.reset();
-					cut.start();
+				if (!service.isRunning()) {
+					service.reset();
+					service.start();
 				}
 				
-				cut.valueProperty().addListener((b, o, n) -> {
+				service.valueProperty().addListener((b, o, n) -> {
 					if (n != null) {
 						assertEquals("I'm an expensive result.", n);
 						waitForAsynyResult.countDown();
 					}
 				});
-				return cut;
+				return service;
 			}).functionOnExecutorThread((cut1) -> {
 				// wait outside FX application thread !!!
 					try {
@@ -106,13 +106,13 @@ public class ClassToTestTest {
 		final FXWorker<?> handler = FXWorker.instance();
 		CountDownLatch waitForAsynyResult = new CountDownLatch(1);
 		handler.supplyOnFXThread(() -> {
-			ClassToTest cut = new ClassToTest();
-			cut.start();
-			cut.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (val) -> {
-				assertEquals("I'm an expensive result.", cut.getValue());
+			ClassToTest service = new ClassToTest();
+			service.start();
+			service.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (val) -> {
+				assertEquals("I'm an expensive result.", service.getValue());
 				waitForAsynyResult.countDown();
 			});
-			return cut;
+			return service;
 		}).functionOnExecutorThread((cut) -> {
 			// wait outside FX application thread !!!
 				try {
@@ -139,8 +139,8 @@ public class ClassToTestTest {
 		final FXWorker<?> handler = FXWorker.instance();
 		
 		handler.supplyOnExecutorThread(() -> {
-			SomeClassToTest cut = new SomeClassToTest();
-			String result = cut.longRunning();
+			SomeClassToTest service = new SomeClassToTest();
+			String result = service.longRunning();
 			System.out.println("result step1: " + result);
 			handler.updateMessage(result);
 			return result;
@@ -167,18 +167,18 @@ public class ClassToTestTest {
 	 */
 	public void testLongLastingOperationInFXThread() throws ExecutionException, InterruptedException, TimeoutException {
 		
-		ClassToTest cut = new ClassToTest();
+		ClassToTest service = new ClassToTest();
 		
 		CompletableFuture<String> future = new CompletableFuture<>();
 		
-		cut.valueProperty().addListener((b, o, n) -> {
+		service.valueProperty().addListener((b, o, n) -> {
 			if (n != null) {
 				future.complete(n);
 			}
 		});
 		
 		// STARTET ONCE....
-		cut.start();
+		service.start();
 		
 		// EXC
 		// cut.valueProperty();
@@ -201,21 +201,21 @@ public class ClassToTestTest {
 	public void testLongLastingOperationInFXThreadDirty() throws ExecutionException, InterruptedException,
 			TimeoutException {
 		
-		ClassToTest cut = new ClassToTest();
+		ClassToTest service = new ClassToTest();
 		
 		CompletableFuture<String> future = new CompletableFuture<>();
 		
-		cut.valueProperty().addListener((b, o, n) -> {
+		service.valueProperty().addListener((b, o, n) -> {
 			if (n != null) {
 				future.complete(n);
 			}
 		});
 		
 		// STARTET ONCE....
-		cut.start();
+		service.start();
 		// bei mir kommt hier java.lang.IllegalStateException: Service must only be used from the FX Application Thread
 		// das sollte doch aber mit deiner Annotation nicht sein?!?
-		while (cut.isRunning()) {
+		while (service.isRunning()) {
 			System.out.println("wait");
 		}
 		
