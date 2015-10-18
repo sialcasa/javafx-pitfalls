@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
@@ -42,7 +43,7 @@ public class VLCDemo
     }
 
     private DirectMediaPlayerComponent mp;
-    final WritablePixelFormat<ByteBuffer> byteBgraInstance = PixelFormat.getByteBgraPreInstance();
+    WritablePixelFormat<ByteBuffer> byteBgraInstance = PixelFormat.getByteBgraPreInstance();
     //final WritablePixelFormat<ByteBuffer> byteBgraInstance = PixelFormat.getByteBgraInstance();  // negative test
 
     static {
@@ -57,9 +58,20 @@ public class VLCDemo
         final Canvas canvas = new Canvas(1920, 1080);
         final Label label = new Label("");
         final VBox vBox = new VBox();
-        vBox.getChildren().add(label);
+        final Button bSwitch= new Button("switch to ByteBgra");
+        bSwitch.setOnAction((event) -> {
+            if(byteBgraInstance.getType().equals(PixelFormat.Type.BYTE_BGRA_PRE)){
+                byteBgraInstance = PixelFormat.getByteBgraInstance();
+                bSwitch.setText("switch to ByteBgraPre");
+            }   else {
+                byteBgraInstance = PixelFormat.getByteBgraPreInstance();
+                bSwitch.setText("switch to ByteBgra");
+            }
+        });
+        vBox.getChildren().addAll(bSwitch,label);
         label.setStyle("-fx-font: 36px \"Segoe UI Semibold\";-fx-text-fill: white;");
         StackPane.setMargin(label, new Insets(0, 10, 0, 0));
+
         stack.getChildren().addAll(canvas, vBox);
         Scene scene = new Scene(stack);
         final PixelWriter pixelWriter = canvas.getGraphicsContext2D().getPixelWriter();

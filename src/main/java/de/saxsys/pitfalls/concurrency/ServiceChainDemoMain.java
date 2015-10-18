@@ -21,7 +21,7 @@ public class ServiceChainDemoMain extends Application {
     @Override
     public void start(Stage stage) {
         FlatterFX.style();
-        ServiceChain demoControl = new ServiceChain();
+        ServiceChainView demoControl = new ServiceChainView();
         Scene scene = new Scene(demoControl, 800, 400);
         stage.setScene(scene);
         stage.setTitle("ServiceChain Demo");
@@ -43,8 +43,9 @@ public class ServiceChainDemoMain extends Application {
         stage.show();
     }
 
-    private void createServiceChain(final Service<String> service, final ServiceChain demoControl) {
+    private void createServiceChain(final Service<String> service, final ServiceChainView demoControl) {
         // or  service.setOnSucceeded(state-> ...);
+        //service.setOnSucceeded(state->);
         service.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (val) -> {
 
             final Service<String> service2 = createServiceTwo();

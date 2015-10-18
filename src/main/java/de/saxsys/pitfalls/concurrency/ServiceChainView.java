@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by Andy Moncsek on 15.09.15.
  */
-public class ServiceChain extends VBox {
+public class ServiceChainView extends VBox {
 
     public
     @FXML
@@ -32,7 +32,7 @@ public class ServiceChain extends VBox {
         Application.launch(args);
     }
 
-    public ServiceChain() {
+    public ServiceChainView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/ServiceChainDefaultView.fxml"));
         fxmlLoader.setRoot(this);

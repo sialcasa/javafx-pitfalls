@@ -2,7 +2,9 @@ package de.saxsys.pitfalls.concurrency;
 
 import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.jacpfx.concurrency.FXWorker;
@@ -19,14 +21,17 @@ public class ServiceChainFXWorkerDemoMain extends Application {
     @Override
     public void start(Stage stage) {
         FlatterFX.style();
-        ServiceChain demoControl = new ServiceChain();
+        ServiceChainView demoControl = new ServiceChainView();
         Scene scene = new Scene(demoControl, 800, 400);
         stage.setScene(scene);
         stage.setTitle("ServiceChain Demo");
+        demoControl.startService.setOnMouseClicked(startHandler(demoControl));
 
+        stage.show();
+    }
 
-
-        demoControl.startService.setOnMouseClicked((val) -> {
+    private EventHandler<MouseEvent> startHandler(ServiceChainView demoControl) {
+        return (val) -> {
             final FXWorker<?> handler = createExecutionChain(demoControl);
 
             demoControl.progressService.progressProperty().bind(handler.progressProperty());
@@ -36,12 +41,10 @@ public class ServiceChainFXWorkerDemoMain extends Application {
             handler.execute(value -> {
                 demoControl.stepTwoRectangle.setStroke(Color.GRAY);
             });
-        });
-
-        stage.show();
+        };
     }
 
-    private FXWorker<?> createExecutionChain(ServiceChain demoControl) {
+    private FXWorker<?> createExecutionChain(ServiceChainView demoControl) {
         final FXWorker<?> handler = FXWorker.instance();
 
         handler
@@ -51,11 +54,9 @@ public class ServiceChainFXWorkerDemoMain extends Application {
                 })
                 .supplyOnExecutorThread(() -> longRunningTask1(handler))
                 .onError(throwable -> "")
-                .consumeOnFXThread(stringVal -> {
-                    demoControl.stepOneRectangle.setStroke(Color.GRAY);
-                })
+                .consumeOnFXThread(stringVal -> demoControl.stepOneRectangle.setStroke(Color.GRAY))
                 .onError(throwable -> null)
-                .consumeOnExecutorThread((v) -> longRunningTask2())
+                .consumeOnExecutorThread(this::longRunningTask2)
                 .onError(throwable -> null)
                 .supplyOnFXThread(() -> {
                     demoControl.stepTwoRectangle.setStroke(Color.GREEN);
@@ -69,32 +70,28 @@ public class ServiceChainFXWorkerDemoMain extends Application {
     private String longRunningTask3(FXWorker<?> handler) {
         handler.updateMessage("start");
         for (int i = 99; i < 200; i++) {
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSleep(20);
             handler.updateMessage("progress: " + i);
         }
         return "finished - Step 3";
     }
 
-    private void longRunningTask2() {
+    private void waitSleep(long val) {
         try {
-            Thread.sleep(500);
+            Thread.sleep(val);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    private void longRunningTask2(Object o) {
+        waitSleep(500);
+    }
+
     private String longRunningTask1(FXWorker<?> handler) {
         handler.updateMessage("start");
         for (int i = 0; i < 100; i++) {
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSleep(20);
             handler.updateMessage("progress: " + i);
         }
         return "finished - Step 1";
