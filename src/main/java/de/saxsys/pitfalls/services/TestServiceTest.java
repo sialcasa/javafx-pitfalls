@@ -19,16 +19,16 @@ import de.saxsys.javafx.test.JfxRunner;
 import de.saxsys.javafx.test.TestInJfxThread;
 
 /**
- * A test for {@link ClassToTest} using the solution pattern given by
+ * A test for {@link TestService} using the solution pattern given by
  * http://blog.buildpath.de/how-to-test-javafx-services/.
  */
 @RunWith(JfxRunner.class)
-public class ClassToTestTest {
+public class TestServiceTest {
 	
 	@Test
 	@TestInJfxThread
 	public void testLongLastingOperation() throws ExecutionException, InterruptedException, TimeoutException {
-		ClassToTest service = new ClassToTest();
+		TestService service = new TestService();
 		
 		CompletableFuture<String> future = new CompletableFuture<>();
 		
@@ -49,7 +49,7 @@ public class ClassToTestTest {
 	
 	@Test(timeout = 60000)
 	public void testLongLastingOperationWithFXWorker() throws ExecutionException, InterruptedException {
-		final ClassToTest service = new ClassToTest();
+		final TestService service = new TestService();
 		
 		IntStream.range(0, 5).forEach(v -> {
 			CountDownLatch stop = new CountDownLatch(1);
@@ -106,7 +106,7 @@ public class ClassToTestTest {
 		final FXWorker<?> handler = FXWorker.instance();
 		CountDownLatch waitForAsynyResult = new CountDownLatch(1);
 		handler.supplyOnFXThread(() -> {
-			ClassToTest service = new ClassToTest();
+			TestService service = new TestService();
 			service.start();
 			service.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (val) -> {
 				assertEquals("I'm an expensive result.", service.getValue());
@@ -167,7 +167,7 @@ public class ClassToTestTest {
 	 */
 	public void testLongLastingOperationInFXThread() throws ExecutionException, InterruptedException, TimeoutException {
 		
-		ClassToTest service = new ClassToTest();
+		TestService service = new TestService();
 		
 		CompletableFuture<String> future = new CompletableFuture<>();
 		
@@ -201,7 +201,7 @@ public class ClassToTestTest {
 	public void testLongLastingOperationInFXThreadDirty() throws ExecutionException, InterruptedException,
 			TimeoutException {
 		
-		ClassToTest service = new ClassToTest();
+		TestService service = new TestService();
 		
 		CompletableFuture<String> future = new CompletableFuture<>();
 		
