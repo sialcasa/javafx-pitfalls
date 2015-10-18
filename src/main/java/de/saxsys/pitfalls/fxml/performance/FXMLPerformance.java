@@ -1,4 +1,4 @@
-package de.saxsys.pitfalls.fxml;
+package de.saxsys.pitfalls.fxml.performance;
 
 import java.io.IOException;
 
