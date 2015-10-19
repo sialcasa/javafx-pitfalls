@@ -27,7 +27,7 @@ public class LeakingView extends StackPane {
 		this.carChangedListener = (observable, oldValue, newValue) -> {
 			
 			if (newValue.equals("kill")) {
-				car.name.removeListener(this.carChangedListener);
+				removeListener();
 			}
 			
 			if (newValue.equals("remove")) {
@@ -39,6 +39,10 @@ public class LeakingView extends StackPane {
 		car.name.addListener(carChangedListener);
 		
 		getChildren().add(carLabel);
+	}
+	
+	private void removeListener() {
+		car.name.removeListener(this.carChangedListener);
 	}
 	
 }
