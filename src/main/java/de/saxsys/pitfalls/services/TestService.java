@@ -13,7 +13,7 @@ public class TestService extends Service<String> {
 		return new Task<String>() {
 			@Override
 			protected String call() throws Exception {
-				Thread.sleep(5000);
+				Thread.sleep(100);
 				return "I'm an expensive result.";
 			}
 		};

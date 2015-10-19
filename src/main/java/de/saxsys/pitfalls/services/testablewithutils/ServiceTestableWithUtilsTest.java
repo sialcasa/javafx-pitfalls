@@ -1,12 +1,9 @@
-package de.saxsys.pitfalls.services;
+package de.saxsys.pitfalls.services.testablewithutils;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.stream.IntStream;
 
 import javafx.concurrent.WorkerStateEvent;
@@ -16,36 +13,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.saxsys.javafx.test.JfxRunner;
-import de.saxsys.javafx.test.TestInJfxThread;
+import de.saxsys.pitfalls.services.SomeBusinessLogic;
+import de.saxsys.pitfalls.services.TestService;
 
 /**
  * A test for {@link TestService} using the solution pattern given by
  * http://blog.buildpath.de/how-to-test-javafx-services/.
  */
 @RunWith(JfxRunner.class)
-public class TestServiceTest {
+public class ServiceTestableWithUtilsTest {
 	
-	@Test
-	@TestInJfxThread
-	public void testLongLastingOperation() throws ExecutionException, InterruptedException, TimeoutException {
-		TestService service = new TestService();
-		
-		CompletableFuture<String> future = new CompletableFuture<>();
-		
-		service.valueProperty().addListener((b, o, n) -> {
-			if (n != null) {
-				future.complete(n);
-			}
-		});
-		
-		// STARTET ONCE....
-		service.start();
-		
-		// EXC
-		System.out.println(service.valueProperty());
-		// assertEquals("I'm an expensive result", cut.getValue());
-		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
-	}
 	
 	@Test(timeout = 60000)
 	public void testLongLastingOperationWithFXWorker() throws ExecutionException, InterruptedException {
@@ -139,7 +116,7 @@ public class TestServiceTest {
 		final FXWorker<?> handler = FXWorker.instance();
 		
 		handler.supplyOnExecutorThread(() -> {
-			SomeClassToTest service = new SomeClassToTest();
+			SomeBusinessLogic service = new SomeBusinessLogic();
 			String result = service.longRunning();
 			System.out.println("result step1: " + result);
 			handler.updateMessage(result);
@@ -159,70 +136,6 @@ public class TestServiceTest {
 		assertEquals(true, true);
 	}
 	
-	@Test
-	@TestInJfxThread
-	/**
-	 * Das kann nicht funktionieren aus dem selben Grund warum CountDown latch nicht funktioniert.
-	 * Du blockierst den FX application Thread (bzw. per Zufall kann es klappen (wenn der Service kürzer Arbeitet als die Excecution der Testmethode dauert))
-	 */
-	public void testLongLastingOperationInFXThread() throws ExecutionException, InterruptedException, TimeoutException {
-		
-		TestService service = new TestService();
-		
-		CompletableFuture<String> future = new CompletableFuture<>();
-		
-		service.valueProperty().addListener((b, o, n) -> {
-			if (n != null) {
-				future.complete(n);
-			}
-		});
-		
-		// STARTET ONCE....
-		service.start();
-		
-		// EXC
-		// cut.valueProperty();
-		// assertEquals("I'm an expensive result", cut.getValue());
-		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
-		
-	}
 	
 	
-	
-	/**
-	 * Das kann nicht funktionieren aus dem selben Grund warum CountDown latch nicht funktioniert. Du blockierst den FX
-	 * application Thread (bzw. per Zufall kann es klappen (wenn der Service kürzer Arbeitet als die Excecution der
-	 * Testmethode dauert))
-	 * 
-	 * @throws TimeoutException
-	 */
-	@TestInJfxThread
-	@Test
-	public void testLongLastingOperationInFXThreadDirty() throws ExecutionException, InterruptedException,
-			TimeoutException {
-		
-		TestService service = new TestService();
-		
-		CompletableFuture<String> future = new CompletableFuture<>();
-		
-		service.valueProperty().addListener((b, o, n) -> {
-			if (n != null) {
-				future.complete(n);
-			}
-		});
-		
-		// STARTET ONCE....
-		service.start();
-		// bei mir kommt hier java.lang.IllegalStateException: Service must only be used from the FX Application Thread
-		// das sollte doch aber mit deiner Annotation nicht sein?!?
-		while (service.isRunning()) {
-			System.out.println("wait");
-		}
-		
-		// EXC
-		// cut.valueProperty();
-		// assertEquals("I'm an expensive result", cut.getValue());
-		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
-		
-	}
 }
