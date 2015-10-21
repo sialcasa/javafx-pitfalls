@@ -1,6 +1,5 @@
 package de.saxsys.pitfalls.pixels;
 
-import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -28,6 +27,7 @@ import java.util.stream.Stream;
 public class PixelWriterARGBDemo extends Application {
 
     public static final String FILE_JPG = "DSCF5453.jpg";
+    public static final int CROP_IMAGE_SIZE = 200;
 
     public static void main(final String[] args) {
         Application.launch(args);
@@ -43,9 +43,9 @@ public class PixelWriterARGBDemo extends Application {
     @Override
     public void start(Stage stage) {
 
-        FlatterFX.style();
+       // FlatterFX.style();
         Group root = new Group();
-        Scene scene = new Scene(root, 1600, 1024);
+        Scene scene = new Scene(root, 1024, 768);
         stage.setScene(scene);
         stage.setTitle("Crop image - comparison");
         final VBox vb = new VBox();
@@ -85,7 +85,7 @@ public class PixelWriterARGBDemo extends Application {
         HBox originalStage = new HBox();
         HBox.setHgrow(originalPane, Priority.ALWAYS);
         originalStage.getChildren().add(originalPane);
-        ImageView originalView = new ImageView(new Image(FILE_JPG, 0, 480, true, false, true));
+        ImageView originalView = new ImageView(new Image(FILE_JPG, 0, 240, true, false, true));
         originalPane.getChildren().add(originalView);
         return originalPane;
     }
@@ -169,7 +169,7 @@ public class PixelWriterARGBDemo extends Application {
     }
 
     private Image getFile() {
-        return new Image(FILE_JPG, 0, 300, true, true, false);
+        return new Image(FILE_JPG, 0, CROP_IMAGE_SIZE, true, true, false);
     }
 
     private WritableImage invokeLoopBody(ReaderWrtiter readerWrtiter, PixelReader reader, int width, int height) {
@@ -192,7 +192,7 @@ public class PixelWriterARGBDemo extends Application {
     private void invokePortrait(ReaderWrtiter readerWrtiter, PixelReader reader, int width, int height, PixelWriter writer) {
         int startY = (height / 4);
         for (int x = 0; x < width; x++) {
-            for (int y = startY; y < height - startY / 2 + 10; y++) {
+            for (int y = startY; y < height - startY / 2 ; y++) {
                 readerWrtiter.invoke(writer, reader, x, y);
 
             }
@@ -201,7 +201,7 @@ public class PixelWriterARGBDemo extends Application {
 
     private void invokeLandscape(ReaderWrtiter readerWrtiter, PixelReader reader, int width, int height, PixelWriter writer) {
         int startX = width / 4;
-        for (int x = startX; x < width - startX / 2 + 10; x++) {
+        for (int x = startX; x < width - startX / 2 ; x++) {
             for (int y = 0; y < height; y++) {
                 readerWrtiter.invoke(writer, reader, x, y);
 

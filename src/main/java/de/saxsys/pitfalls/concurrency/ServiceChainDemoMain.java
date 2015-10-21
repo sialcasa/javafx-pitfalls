@@ -32,6 +32,7 @@ public class ServiceChainDemoMain extends Application {
             if (!service.isRunning()) {
                 service.reset();
                 demoControl.stepOneRectangle.setStroke(Color.GREEN);
+                demoControl.stepOneRectangle.setFill(null);
                 demoControl.stepOneRectangle.setVisible(true);
                 service.start();
                 demoControl.progressService.progressProperty().bind(service.progressProperty());
@@ -52,6 +53,7 @@ public class ServiceChainDemoMain extends Application {
 
             service2.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, (val2) -> {
                 demoControl.stepTwoRectangle.setStroke(Color.GRAY);
+                demoControl.stepTwoRectangle.setFill(Color.GRAY);
                 service.getWorkDone();
             });
 
@@ -66,7 +68,9 @@ public class ServiceChainDemoMain extends Application {
             demoControl.progressService.progressProperty().bind(service2.progressProperty());
 
             demoControl.stepOneRectangle.setStroke(Color.GRAY);
+            demoControl.stepOneRectangle.setFill(Color.GRAY);
             demoControl.stepTwoRectangle.setStroke(Color.GREEN);
+            demoControl.stepTwoRectangle.setFill(null);
             demoControl.stepTwoRectangle.setVisible(true);
             service2.start();
         });
