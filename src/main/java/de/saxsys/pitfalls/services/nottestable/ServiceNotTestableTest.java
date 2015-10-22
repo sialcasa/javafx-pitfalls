@@ -26,11 +26,10 @@ public class ServiceNotTestableTest {
 		service.valueProperty().addListener((b, o, n) -> {
 			if (n != null) {
 				future.complete(n);
-				System.out.println("TEST");
 			}
 		});
 		
-		service.start();
+		service.restart();
 		
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 	}
