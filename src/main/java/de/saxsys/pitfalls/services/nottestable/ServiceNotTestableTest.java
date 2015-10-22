@@ -30,10 +30,8 @@ public class ServiceNotTestableTest {
 			}
 		});
 		
-		// STARTET ONCE....
 		service.start();
 		
-		// assertEquals("I'm an expensive result", cut.getValue());
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 	}
 	
@@ -52,13 +50,14 @@ public class ServiceNotTestableTest {
 			}
 		});
 		
-		// STARTET ONCE....
-		service.start();
+		// OK
+		service.restart();
 		
-		// EXC
-		System.out.println(service.valueProperty());
+		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 		
-		// assertEquals("I'm an expensive result", cut.getValue());
+		// FAIL
+		service.restart();
+		
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 	}
 	
@@ -81,45 +80,14 @@ public class ServiceNotTestableTest {
 			}
 		});
 		
-		// STARTET ONCE....
-		service.start();
+		// OK
+		service.restart();
 		
-		// EXC
-		// cut.valueProperty();
-		// assertEquals("I'm an expensive result", cut.getValue());
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 		
-	}
-	
-	/**
-	 * raus?
-	 */
-	@TestInJfxThread
-	@Test
-	public void testLongLastingOperationInFXThreadDirty() throws ExecutionException, InterruptedException,
-			TimeoutException {
+		// FAIL
+		service.restart();
 		
-		TestService service = new TestService();
-		
-		CompletableFuture<String> future = new CompletableFuture<>();
-		
-		service.valueProperty().addListener((b, o, n) -> {
-			if (n != null) {
-				future.complete(n);
-			}
-		});
-		
-		// STARTET ONCE....
-		service.start();
-		// bei mir kommt hier java.lang.IllegalStateException: Service must only be used from the FX Application Thread
-		// das sollte doch aber mit deiner Annotation nicht sein?!?
-		while (service.isRunning()) {
-			System.out.println("wait");
-		}
-		
-		// EXC
-		// cut.valueProperty();
-		// assertEquals("I'm an expensive result", cut.getValue());
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 		
 	}
