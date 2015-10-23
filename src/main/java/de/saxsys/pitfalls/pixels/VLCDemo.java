@@ -33,8 +33,8 @@ public class VLCDemo
         extends Application {
 
     public static final String MOVIE_FILE = "H264_AAC_(720p)(mkvmerge).mkv";
-    public static final int WIDTH = 1920;
-    public static final int HIGHT = 1080;
+    public static final int WIDTH = 1024;
+    public static final int HIGHT = 768;
 
     File file = new File(getClass().getClassLoader().getResource(MOVIE_FILE).getFile());
 
@@ -55,7 +55,7 @@ public class VLCDemo
 
         FlatterFX.style();
         StackPane stack = new StackPane();
-        final Canvas canvas = new Canvas(1920, 1080);
+        final Canvas canvas = new Canvas(WIDTH, HIGHT);
         final Label label = new Label("");
         final VBox vBox = new VBox();
         final Button bSwitch= new Button("switch to ByteBgra");

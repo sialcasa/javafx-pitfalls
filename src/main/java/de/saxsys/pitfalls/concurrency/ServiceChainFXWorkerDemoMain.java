@@ -40,6 +40,7 @@ public class ServiceChainFXWorkerDemoMain extends Application {
 
             handler.execute(value -> {
                 demoControl.stepTwoRectangle.setStroke(Color.GRAY);
+                demoControl.stepTwoRectangle.setFill(Color.GRAY);
             });
         };
     }
@@ -50,16 +51,21 @@ public class ServiceChainFXWorkerDemoMain extends Application {
         handler
                 .consumeOnFXThread((val) -> {
                     demoControl.stepOneRectangle.setStroke(Color.GREEN);
+                    demoControl.stepOneRectangle.setFill(null);
                     demoControl.stepOneRectangle.setVisible(true);
                 })
                 .supplyOnExecutorThread(() -> longRunningTask1(handler))
                 .onError(throwable -> "")
-                .consumeOnFXThread(stringVal -> demoControl.stepOneRectangle.setStroke(Color.GRAY))
+                .consumeOnFXThread(stringVal -> {
+                    demoControl.stepOneRectangle.setStroke(Color.GRAY);
+                    demoControl.stepOneRectangle.setFill(Color.GRAY);
+                })
                 .onError(throwable -> null)
                 .consumeOnExecutorThread(this::longRunningTask2)
                 .onError(throwable -> null)
                 .supplyOnFXThread(() -> {
                     demoControl.stepTwoRectangle.setStroke(Color.GREEN);
+                    demoControl.stepTwoRectangle.setFill(null);
                     demoControl.stepTwoRectangle.setVisible(true);
                     return "step2";
                 })
@@ -72,6 +78,7 @@ public class ServiceChainFXWorkerDemoMain extends Application {
         for (int i = 99; i < 200; i++) {
             waitSleep(20);
             handler.updateMessage("progress: " + i);
+            handler.updateProgress(i, 200);
         }
         return "finished - Step 3";
     }
@@ -93,6 +100,7 @@ public class ServiceChainFXWorkerDemoMain extends Application {
         for (int i = 0; i < 100; i++) {
             waitSleep(20);
             handler.updateMessage("progress: " + i);
+            handler.updateProgress(i, 200);
         }
         return "finished - Step 1";
     }

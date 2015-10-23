@@ -4,7 +4,6 @@ import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
-import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,14 +40,6 @@ public class AccidentalGCExample extends Application {
                     label.setText(String.format("Slider pos: %.2f ", z.floatValue()));
                 });
 
-        Task<String> task = new Task<String>() {
-            @Override
-            protected String call() throws Exception {
-                return null;
-            }
-        };
-
-        label.textProperty().bind(task.valueProperty());
 
         /**
          * Solution !!
