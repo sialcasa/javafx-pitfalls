@@ -1,6 +1,5 @@
 package de.saxsys.pitfalls.memoryleaks.binding;
 
-import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.stage.Stage;
@@ -14,8 +13,8 @@ public class LeakExample extends Application{
 
     SimpleDoubleProperty a = new SimpleDoubleProperty(0.0);
 
-    public static void main(String[] args) {
-        LauncherImpl.launchApplication(LeakExample.class, args);
+    public static void main(final String[] args) {
+        Application.launch(args);
     }
 
 

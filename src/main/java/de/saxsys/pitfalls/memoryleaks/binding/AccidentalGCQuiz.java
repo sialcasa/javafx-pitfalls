@@ -74,4 +74,8 @@ public class AccidentalGCQuiz extends Application {
         container.getChildren().addAll(main);
         primaryStage.show();
     }
+
+    public static void main(final String[] args) {
+        Application.launch(args);
+    }
 }

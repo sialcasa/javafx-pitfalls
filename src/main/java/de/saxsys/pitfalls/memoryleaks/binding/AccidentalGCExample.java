@@ -53,4 +53,8 @@ public class AccidentalGCExample extends Application {
         container.getChildren().addAll(vbox, label);
         primaryStage.show();
     }
+
+    public static void main(final String[] args) {
+        Application.launch(args);
+    }
 }

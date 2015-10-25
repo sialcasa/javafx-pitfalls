@@ -38,9 +38,6 @@ public class VLCDemo
 
     File file = new File(getClass().getClassLoader().getResource(MOVIE_FILE).getFile());
 
-    public static void main(final String[] args) {
-        Application.launch(args);
-    }
 
     private DirectMediaPlayerComponent mp;
     WritablePixelFormat<ByteBuffer> byteBgraInstance = PixelFormat.getByteBgraPreInstance();
@@ -122,4 +119,8 @@ public class VLCDemo
 
         return new RV32BufferFormat(width, height);
     };
+
+    public static void main(final String[] args) {
+        Application.launch(args);
+    }
 }

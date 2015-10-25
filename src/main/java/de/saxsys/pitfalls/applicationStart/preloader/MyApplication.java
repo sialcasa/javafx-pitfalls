@@ -4,7 +4,6 @@ package de.saxsys.pitfalls.applicationStart.preloader;
  * Created by Andy Moncsek on 23.10.15.
  */
 
-import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -53,8 +52,8 @@ public class MyApplication extends Application {
     }
 
 
-    public static void main(String[] args) {
-        LauncherImpl.launchApplication(MyApplication.class, MyPreloader.class, args);
+    public static void main(final String[] args) {
+        Application.launch(args);
     }
 
 }
