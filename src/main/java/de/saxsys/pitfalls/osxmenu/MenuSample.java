@@ -1,7 +1,7 @@
 package de.saxsys.pitfalls.osxmenu;
 
 /**
- * Created by Andy Moncsek on 13.10.15.
+ * Created by Andy Moncsek on 13.10.15.  Simple Demo application to show Menus.
  */
 
 import com.guigarage.flatterfx.FlatterFX;

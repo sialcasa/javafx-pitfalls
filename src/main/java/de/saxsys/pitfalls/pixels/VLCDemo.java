@@ -59,16 +59,10 @@ public class VLCDemo
         final Label label = new Label("");
         final VBox vBox = new VBox();
         final Button bSwitch= new Button("switch to ByteBgra");
-        bSwitch.setOnAction((event) -> {
-            if(byteBgraInstance.getType().equals(PixelFormat.Type.BYTE_BGRA_PRE)){
-                byteBgraInstance = PixelFormat.getByteBgraInstance();
-                bSwitch.setText("switch to ByteBgraPre");
-            }   else {
-                byteBgraInstance = PixelFormat.getByteBgraPreInstance();
-                bSwitch.setText("switch to ByteBgra");
-            }
-        });
+
+        bSwitch.setOnAction((event) -> swtichPrixelformat(bSwitch));
         vBox.getChildren().addAll(bSwitch,label);
+
         label.setStyle("-fx-font: 36px \"Segoe UI Semibold\";-fx-text-fill: white;");
         StackPane.setMargin(label, new Insets(0, 10, 0, 0));
 
@@ -105,6 +99,16 @@ public class VLCDemo
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void swtichPrixelformat(Button bSwitch) {
+        if(byteBgraInstance.getType().equals(PixelFormat.Type.BYTE_BGRA_PRE)){
+            byteBgraInstance = PixelFormat.getByteBgraInstance();
+            bSwitch.setText("switch to ByteBgraPre");
+        }   else {
+            byteBgraInstance = PixelFormat.getByteBgraPreInstance();
+            bSwitch.setText("switch to ByteBgra");
+        }
     }
 
 

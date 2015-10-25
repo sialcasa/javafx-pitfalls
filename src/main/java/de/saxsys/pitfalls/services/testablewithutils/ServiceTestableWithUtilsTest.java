@@ -15,6 +15,7 @@ import java.util.stream.IntStream;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Created by Andy Moncsek.
  * A test for {@link TestService} using the solution pattern given by
  * http://blog.buildpath.de/how-to-test-javafx-services/.
  */
@@ -38,7 +39,9 @@ public class ServiceTestableWithUtilsTest {
                 return service;
             }).functionOnExecutorThread((cut1) -> {
                 // wait outside FX application thread !!!
+                System.out.println(" wait for service to finish");
                 waitForService(waitForAsynyResult);
+                System.out.println(" service finished");
                 return cut1;
             }).execute(val -> {
                 System.out.println(v+": --> "+val.valueProperty().getValue());

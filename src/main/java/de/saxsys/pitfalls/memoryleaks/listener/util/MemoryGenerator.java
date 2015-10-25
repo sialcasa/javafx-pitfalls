@@ -7,7 +7,7 @@ public class MemoryGenerator {
 		Thread thread = new Thread(() -> {
 			// While the View retains in memory, we force the GarbageCollection to work
 				while (shouldRun.get()) {
-					System.out.println("View retains in memory");
+					System.out.println("View retains in memory: "+ System.currentTimeMillis());
 					String[] generateOutOfMemoryStr = new String[999999];
 					System.gc();
 					try {

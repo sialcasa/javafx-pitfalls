@@ -24,7 +24,7 @@ public class ServiceChainFXWorkerDemoMain extends Application {
         ServiceChainView demoControl = new ServiceChainView();
         Scene scene = new Scene(demoControl, 800, 400);
         stage.setScene(scene);
-        stage.setTitle("ServiceChain Demo");
+        stage.setTitle("ServiceChain Demo - FXWorker");
         demoControl.startService.setOnMouseClicked(startHandler(demoControl));
 
         stage.show();
@@ -49,17 +49,10 @@ public class ServiceChainFXWorkerDemoMain extends Application {
         final FXWorker<?> handler = FXWorker.instance();
 
         handler
-                .consumeOnFXThread((val) -> {
-                    demoControl.stepOneRectangle.setStroke(Color.GREEN);
-                    demoControl.stepOneRectangle.setFill(null);
-                    demoControl.stepOneRectangle.setVisible(true);
-                })
+                .consumeOnFXThread((val) -> updateUIForStart(demoControl))
                 .supplyOnExecutorThread(() -> longRunningTask1(handler))
-                .onError(throwable -> "")
-                .consumeOnFXThread(stringVal -> {
-                    demoControl.stepOneRectangle.setStroke(Color.GRAY);
-                    demoControl.stepOneRectangle.setFill(Color.GRAY);
-                })
+                .onError(throwable -> "add some error handling")
+                .consumeOnFXThread(stringVal -> updateUIAfterFirstServiceCall(demoControl))
                 .onError(throwable -> null)
                 .consumeOnExecutorThread(this::longRunningTask2)
                 .onError(throwable -> null)
@@ -71,6 +64,17 @@ public class ServiceChainFXWorkerDemoMain extends Application {
                 })
                 .functionOnExecutorThread((val) -> "step2".equals(val) ? longRunningTask3(handler) : "error");
         return handler;
+    }
+
+    private void updateUIAfterFirstServiceCall(ServiceChainView demoControl) {
+        demoControl.stepOneRectangle.setStroke(Color.GRAY);
+        demoControl.stepOneRectangle.setFill(Color.GRAY);
+    }
+
+    private void updateUIForStart(ServiceChainView demoControl) {
+        demoControl.stepOneRectangle.setStroke(Color.GREEN);
+        demoControl.stepOneRectangle.setFill(null);
+        demoControl.stepOneRectangle.setVisible(true);
     }
 
     private String longRunningTask3(FXWorker<?> handler) {

@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.IOException;
 
 /**
- * Created by Andy Moncsek on 15.09.15.
+ * Created by Andy Moncsek on 15.09.15. Simple view for Service-chain demo.
  */
 public class ServiceChainView extends VBox {
 

@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 
 /**
  * Created by Andy Moncsek on 16.09.15.
+ * This Test compares different ways to manipulate pixels (get from source -> change -> write to new Image)
  */
 public class PixelWriterARGBDemo extends Application {
 
@@ -37,20 +38,18 @@ public class PixelWriterARGBDemo extends Application {
     VBox color = new VBox();
     VBox argb = new VBox();
     VBox setPixels = new VBox();
-    VBox all = new VBox();
     VBox maskImageView = new VBox();
 
     @Override
     public void start(Stage stage) {
 
-       // FlatterFX.style();
         Group root = new Group();
         Scene scene = new Scene(root, 1024, 768);
         stage.setScene(scene);
         stage.setTitle("Crop image - comparison");
-        final VBox vb = new VBox();
-
+        VBox vb = new VBox();
         VBox header = new VBox();
+
         header.getChildren().addAll(createButtons(), createOriginalImageView(), result);
 
 
@@ -65,9 +64,9 @@ public class PixelWriterARGBDemo extends Application {
         box.setAlignment(Pos.BOTTOM_CENTER);
         box.setPrefHeight(150);
         box.setMaxHeight(150);
-        defineAlignment(color,argb,all,setPixels,maskImageView);
-        defineMargin(10,color,argb,all,setPixels,maskImageView);
-        box.getChildren().addAll(color, argb, all, setPixels, maskImageView);
+        defineAlignment(color,argb,setPixels,maskImageView);
+        defineMargin(10,color,argb,setPixels,maskImageView);
+        box.getChildren().addAll(color, argb, setPixels, maskImageView);
         return box;
     }
 
@@ -106,14 +105,14 @@ public class PixelWriterARGBDemo extends Application {
             this.setPixels.getChildren().clear();
             this.setPixels.getChildren().addAll(view, new Label("by setPixels: " + time + " ms"));
         })));
-        Button all = new Button("mask and getImage");
-        all.setOnAction((event) -> createImageByMask());
+
+
 
         Button imgView = new Button("mask use ImageView");
         imgView.setOnAction((event) -> createImageViewByMask());
 
-        defineMargin(30,color,argb,setPixels,all,imgView);
-        box.getChildren().addAll(color, argb, all, setPixels, imgView);
+        defineMargin(30,color,argb,setPixels,imgView);
+        box.getChildren().addAll(color, argb, setPixels, imgView);
         return box;
     }
 
@@ -140,7 +139,7 @@ public class PixelWriterARGBDemo extends Application {
 
     }
 
-    private void invokeLoop(final ReaderWrtiter readerWrtiter, NodeTime nodeTime) {
+    private void invokeLoop(final ReaderWrtiter readerWrtiter, PostProcess nodeTime) {
         runOffThread(() -> {
             final Image src = getFile();
             final PixelReader reader = src.getPixelReader();
@@ -213,11 +212,11 @@ public class PixelWriterARGBDemo extends Application {
         void invoke(PixelWriter writer, PixelReader reader, int x, int y);
     }
 
-    private interface NodeTime {
+    private interface PostProcess {
         void invoke(ImageView view, long elapsedTime);
     }
 
-    private void createImageSetPixels(NodeTime nodeTime) {
+    private void createImageSetPixels(PostProcess nodeTime) {
         runOffThread(() -> {
             final Image src = getFile();
             final PixelReader reader = src.getPixelReader();
@@ -298,25 +297,7 @@ public class PixelWriterARGBDemo extends Application {
 
     }
 
-    private void createImageByMask() {
-        final Image src = getFile();
 
-        Image dest = null;
-        final int width = (int) src.getWidth();
-        final int height = (int) src.getHeight();
-        final long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 1000; i++) {
-            dest = postProcess(src, height, width).snapshot(null, null);
-        }
-
-        final long stopTime = System.currentTimeMillis();
-        final long elapsedTime = stopTime - startTime;
-        final ImageView originalView = new ImageView(dest);
-        all.getChildren().clear();
-        VBox.setMargin(originalView, new Insets(20));
-        all.getChildren().addAll(originalView, new Label("by mask (snapshot): " + elapsedTime + " ms"));
-
-    }
 
 
     public ImageView postProcess(Image image, double maxHight, double maxWidth) {
@@ -326,7 +307,7 @@ public class PixelWriterARGBDemo extends Application {
         maskView.setImage(image);
         maskView.setClip(initLayer(image, Color.WHITE, 1.0, maxHight, maxWidth));
 
-        return maskView;//.snapshot(null, null);
+        return maskView;
     }
 
     private Rectangle initLayer(Image image, Color color, double opacity, double maxHight, double maxWidth) {

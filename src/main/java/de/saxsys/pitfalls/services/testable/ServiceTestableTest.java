@@ -13,7 +13,18 @@ import java.util.stream.IntStream;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JfxRunner.class)
+/**
+ * Created by Andy Moncsek.
+ * This UnitTest shows various ways how to test a JavaFX Service
+ */
 public class ServiceTestableTest {
+    /**
+     * Test single service call. This test uses CompletableFuture as exchanger and CountDownlatch.
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws TimeoutException
+     */
     @Test
     public void testLongLastingOperationSimple() throws ExecutionException, InterruptedException,
             TimeoutException {
@@ -28,7 +39,6 @@ public class ServiceTestableTest {
                 }
 
             });
-
             service.restart();
         });
         assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
@@ -37,9 +47,15 @@ public class ServiceTestableTest {
 
     }
 
-
+    /**
+     * Test service in Loop. This test uses a CountDownLatch to wait for each service execution and an AtomicReference to exchange data between the FX-Thread and the JUnit-Thread.
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws TimeoutException
+     */
     @Test
-    public void testLongLastingOperation() throws ExecutionException, InterruptedException,
+    public void testLongLastingOperationInLoop() throws ExecutionException, InterruptedException,
             TimeoutException {
 
         TestService service = new TestService();
@@ -79,8 +95,15 @@ public class ServiceTestableTest {
 
     }
 
+    /**
+     * Test service in Loop. This test uses CompletableFuture as exchanger and CountDownlatch.
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws TimeoutException
+     */
     @Test
-    public void testLongLastingOperation2() throws ExecutionException, InterruptedException,
+    public void testLongLastingOperationInLoopWithCompletableFuture() throws ExecutionException, InterruptedException,
             TimeoutException {
 
         TestService service = new TestService();

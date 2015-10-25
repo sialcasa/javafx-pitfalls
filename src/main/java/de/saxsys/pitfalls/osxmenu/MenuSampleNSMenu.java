@@ -1,7 +1,7 @@
 package de.saxsys.pitfalls.osxmenu;
 
 /**
- * Created by Andy Moncsek on 13.10.15.
+ * Created by Andy Moncsek on 13.10.15. Sample application to show usage of NSMenuFX
  * source: https://github.com/codecentric/NSMenuFX
  */
 
