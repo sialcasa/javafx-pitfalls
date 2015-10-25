@@ -17,20 +17,14 @@ import de.saxsys.pitfalls.services.TestService;
 @RunWith(JfxRunner.class)
 public class ServiceNotTestableTest {
 	
+	/**
+	 * Runs - but only for single use
+	 */
 	@Test
 	public void testLongLastingOperation() throws ExecutionException, InterruptedException, TimeoutException {
 		TestService service = new TestService();
-		
-		CompletableFuture<String> future = new CompletableFuture<>();
-		
-		service.valueProperty().addListener((b, o, n) -> {
-			if (n != null) {
-				future.complete(n);
-			}
-		});
-		
+		CompletableFuture<String> future = createFutureWithListener(service);
 		service.restart();
-		
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 	}
 	
@@ -40,26 +34,15 @@ public class ServiceNotTestableTest {
 	@Test
 	public void testLongLastingOperationFails() throws ExecutionException, InterruptedException, TimeoutException {
 		TestService service = new TestService();
-		
-		CompletableFuture<String> future = new CompletableFuture<>();
-		
-		service.valueProperty().addListener((b, o, n) -> {
-			if (n != null) {
-				future.complete(n);
-			}
-		});
-		
+		CompletableFuture<String> future = createFutureWithListener(service);
 		// OK
 		service.restart();
-		
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
-		
+		future = createFutureWithListener(service);
 		// FAIL
 		service.restart();
-		
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
 	}
-	
 	
 	/**
 	 * This method fails, because the future#get call blocks the UI thread, so that the future.complete never get
@@ -68,26 +51,23 @@ public class ServiceNotTestableTest {
 	@Test
 	@TestInJfxThread
 	public void testLongLastingOperationInFXThread() throws ExecutionException, InterruptedException, TimeoutException {
-		
 		TestService service = new TestService();
-		
-		CompletableFuture<String> future = new CompletableFuture<>();
-		
-		service.valueProperty().addListener((b, o, n) -> {
-			if (n != null) {
-				future.complete(n);
-			}
-		});
-		
+		CompletableFuture<String> future = createFutureWithListener(service);
 		// OK
 		service.restart();
-		
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
-		
+		future = createFutureWithListener(service);
 		// FAIL
 		service.restart();
-		
 		assertEquals("I'm an expensive result.", future.get(5, TimeUnit.SECONDS));
-		
+	}
+	
+	private CompletableFuture<String> createFutureWithListener(TestService service) {
+		CompletableFuture<String> future = new CompletableFuture<>();
+		service.valueProperty().addListener((b, o, n) -> {
+			if (n != null)
+				future.complete(n);
+		});
+		return future;
 	}
 }
