@@ -1,10 +1,10 @@
 package de.saxsys.pitfalls.fxml.performance;
 
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class FXMLPerformance extends Application {
 	
@@ -24,7 +24,7 @@ public class FXMLPerformance extends Application {
 	
 	private void loadWithoutWildcards() throws IOException {
 		long startTime = System.currentTimeMillis();
-		FXMLLoader loader = new FXMLLoader(FXMLPerformance.class.getResource("WithoutWildcards.fxml"));
+		FXMLLoader loader = new FXMLLoader(FXMLPerformance.class.getResource("/WithoutWildcards.fxml"));
 		loader.load();
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("Without Wildcards: \t" + estimatedTime);
@@ -32,7 +32,7 @@ public class FXMLPerformance extends Application {
 	
 	private void loadWithWildcards() throws IOException {
 		long startTime = System.currentTimeMillis();
-		FXMLLoader loader = new FXMLLoader(FXMLPerformance.class.getResource("WithWildcards.fxml"));
+		FXMLLoader loader = new FXMLLoader(FXMLPerformance.class.getResource("/WithWildcards.fxml"));
 		loader.load();
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("With Wildcards: \t" + estimatedTime);

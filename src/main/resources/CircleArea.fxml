@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane minHeight="1000.0" minWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+   <children>
+      <Pane fx:id="circleContainer" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+            <ToggleButton fx:id="cacheToggle" mnemonicParsing="false" text="Enable Caching">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </ToggleButton>
+            <Label fx:id="fpsLabel" text="FPS">
+               <font>
+                  <Font size="60.0" />
+               </font>
+            </Label>
+        </items>
+      </ToolBar>
+   </children>
+</AnchorPane>

@@ -4,6 +4,7 @@ package de.saxsys.pitfalls.applicationStart.service;
  * Created by Andy Moncsek on 23.10.15.
  */
 
+import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -55,9 +56,9 @@ public class MyApplication extends Application {
         primaryStage.show();
     }
 
-
-    public static void main(final String[] args) {
-        Application.launch(args);
+    public static void main(String[] args) {
+        // do not use internal API! This is only for Demo: https://docs.oracle.com/javafx/2/deployment/preloaders.html
+        LauncherImpl.launchApplication(MyApplication.class, MyPreloader.class, args);
     }
 
 }

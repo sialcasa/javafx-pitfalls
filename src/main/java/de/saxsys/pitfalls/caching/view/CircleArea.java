@@ -1,8 +1,6 @@
 package de.saxsys.pitfalls.caching.view;
 
-import java.io.IOException;
-import java.util.function.Consumer;
-
+import de.saxsys.pitfalls.caching.util.FPSUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import de.saxsys.pitfalls.caching.util.FPSUtil;
+
+import java.io.IOException;
+import java.util.function.Consumer;
 
 public class CircleArea extends Region {
 	
@@ -27,7 +27,7 @@ public class CircleArea extends Region {
 	private Consumer<Boolean> callback;
 	
 	public CircleArea() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("CircleArea.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/CircleArea.fxml"));
 		loader.setController(this);
 		try {
 			loader.load();
